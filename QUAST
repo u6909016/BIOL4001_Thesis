@@ -1,3 +1,5 @@
+###Code for finding quast output for an assembly names assembly*.fasta.
+###All assemblies used the same code, changing assembly* as needed.
 #QUAST
 #!/bin/bash
 
