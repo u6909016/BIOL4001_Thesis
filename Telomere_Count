@@ -1,0 +1,2 @@
+#Telomere Count for 150bp window and 50% cuttoff.
+python FindTelomeres.py -w 150 -c 50 assembly*.fasta
