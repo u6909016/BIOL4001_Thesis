@@ -1,0 +1,6 @@
+#NanoPlot
+#calculates NanoPlot data for one assembly. -o is output directory. --fastq sets the read set to analyse.
+
+NanoPlot -o ~/outdir --fastq READS.fastq
+
+#This was repeated for all sets of reads while altering the output directory to prevent overwriting of data.
