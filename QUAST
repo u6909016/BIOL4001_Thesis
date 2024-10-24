@@ -1,0 +1,14 @@
+#QUAST
+#!/bin/bash
+
+#SBATCH --job-name=OMP_run     # job name, "OMP_run"
+#SBATCH --partition=Standard  # partition (queue)
+#SBATCH -t 0-2:00              # time limit: (D-HH:MM)
+#SBATCH --mem=32000            # memory per node in MB
+#SBATCH --nodes=1              # number of nodes
+#SBATCH --ntasks-per-node=16   # number of cores
+#SBATCH --output=slurm.out     # file to collect standard output
+#SBATCH --error=slurm.err      # file to collect standard errors
+
+
+quast -o quast_output ~/assembly*.fasta -t 16
