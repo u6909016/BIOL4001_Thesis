@@ -1,0 +1,59 @@
+#Dorado code for Sequencing run 1.
+# dorado version v0.7.3
+# SUP model dna_r10.4.1_e8.2_400bps_sup@v5.0.0
+# auto trimming turned off for demultiplexing
+dorado basecaller /home/u6149379/dorado-0.7.3-linux-x64/models/dna_r10.4.1_e8.2_400bps_sup@v5.0.0 --device cuda:0  pod5/ --no-trim > Epicoccum_nirgrum.simplex.bam
+samtools bam2fq -@32 Epicoccum_nirgrum.simplex.bam | gzip > Epicoccum_nirgrum.simplex.fastq.gz
+
+# demultiplex using barcodes and convert to fastq
+dorado demux --kit-name SQK-NBD114-96 -o demultiplexed Epicoccum_nirgrum.simplex.fastq.gz --threads 60
+
+for n in {92,93}
+do
+    # convert bam to fastq then gzip it
+    samtools bam2fq -@32 SQK-NBD114-96_barcode${n}.bam | gzip > SQK-NBD114-96_barcode${n}.simplex.fastq.gz
+    
+    # trim adapters
+    dorado trim SQK-NBD114-96_barcode${n}.simplex.fastq.gz --threads 60 --emit-fastq | gzip > ../trimmed/SQK-NBD114-96_barcode${n}.simplex.trimmed.fastq.gz
+    
+    # get read statistics for trimmed simplex reads
+    seqkit stats --all -T SQK-NBD114-96_barcode${n}.simplex.trimmed.fastq.gz > SQK-NBD114-96_barcode${n}.simplex.seqkit
+    NanoPlot -t 40 --fastq SQK-NBD114-96_barcode${n}.simplex.trimmed.fastq.gz --verbose --N50 -o bc${n}_simplex_nanoplot
+    
+    # note that herro-corrected reads are derived from trimmed simplex so they won't contain adapters
+    zcat SQK-NBD114-96_barcode${n}.simplex.trimmed.fastq.gz | bgzip > SQK-NBD114-96_barcode${n}.simplex.trimmed.fastq.bgz
+    $doradorita correct --threads 60 -m /home/u6149379/dorado-0.7.3-linux-x64/models/herro-v1 --device cuda:all SQK-NBD114-96_barcode${n}.simplex.trimmed.fastq.bgz > SQK-NBD114-96_barcode${n}.herro-corrected.trimmed.fasta
+    
+    # get read statistics for herro-corrected reads
+    seqkit stats --all -T SQK-NBD114-96_barcode${n}.herro-corrected.trimmed.fasta > SQK-NBD114-96_barcode${n}.herro-corrected.seqkit
+done
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# Seconds Poplar Blood Sequencing Run
+### Navigate to folder where sequencing data is stored
+cd /media/nvme/MinKNOW/OtherSequencing/*/no_sample
+
+### Combine all the pod5s in a new folder named calledPod5
+## Create folder 
+mkdir calledPod5
+
+## Now find all pod5 files and move them into the calledPod5 folder 
+find . -type f -name "*.pod5" | xargs -I X mv X /media/nvme/MinKNOW/OtherSequencing/*/no_sample/calledPod5/
+
+#do a sanity check with 
+ls ./calledPod5/* | wc -l
+
+#Check if the graphic card is in use already. NVIDIA GeForce ...  Off is at 0%
+nvidia-smi
+
+#Run tmux so it can continue running if window is closed
+tmux
+
+#### 2. Basecalling
+
+# Run dorado
+/media/ssd/common/dorado-0.7.0-linux-x64/bin/dorado basecaller sup ./calledPod5 --kit-name "SQK-LSK114" > called.bam
+
+samtools fastq called.bam > called.fq
+
+scp *@***:/media/nvme/MinKNOW/OtherSequencing/*/no_sample/called.fq /Users/*/Desktop
