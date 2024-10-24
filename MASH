@@ -1,0 +1,7 @@
+#MASH calculations
+
+#calculates a database for all the assemblies. -k give k-mer size. -s is number of k-mers per sketch. -o is output file name.
+mash sketch -k 21 -s 1000000 -o sketch_table assembly92.fasta assemblyPBCOMB.fasta GCA_002116315.fasta GCA_040893085.fasta GCA_015266435.fasta GCA_019721275.fasta GCA_009761125.fasta
+
+#Then, simply run this command for all of the assemblies. Record results of each. Discard duplicates.
+mash dist sketch_table.fna assembly*.fasta -v 1
