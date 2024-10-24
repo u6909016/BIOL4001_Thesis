@@ -1,0 +1,11 @@
+#BLAST Calculation
+
+#First find alignment to DC1 (assembly92) for given barcode
+blastn -db assembly92.fasta -query ~/blast/fastaforward/REFERENCE_BARCODE.fasta
+
+#Then, manually extract the matching sequence in DC1 from the result
+
+#Check the result against PBCOMB
+blastn -db assemblyPBCOMB.fasta -query ~/blast/fastaforward/DC1_BARCODE.fasta
+
+#If a match, search for it in the PBCOMB assembly by hand to ensure all base-pairs match as blastn may leave some out.
