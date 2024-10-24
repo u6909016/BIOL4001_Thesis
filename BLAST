@@ -9,3 +9,5 @@ blastn -db assembly92.fasta -query ~/blast/fastaforward/REFERENCE_BARCODE.fasta
 blastn -db assemblyPBCOMB.fasta -query ~/blast/fastaforward/DC1_BARCODE.fasta
 
 #If a match, search for it in the PBCOMB assembly by hand to ensure all base-pairs match as blastn may leave some out.
+
+#Repeat for all barcodes
