@@ -1,4 +1,4 @@
-##Verkko
+##Verkko. Generates genome assemblies.
 verkko -d /*/assembly --local-memory 50 --local-cpus 28 --hifi SQK-NBD114-96_barcode92.herro-corrected.fasta --nano SQK-NBD114-96_barcode92.simplex.trimmed.fastq.gz
 
 verkko -d /*/assembly --local-memory 50 --local-cpus 28 --hifi PBCOMB.herro-corrected.fasta --nano PBCOMB.fastq
