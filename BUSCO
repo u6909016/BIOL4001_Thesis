@@ -1,0 +1,3 @@
+#BUSCO analysis
+#Finds buscos for assembly -i with reference to dataset -l with mode genome. Deposits result in -o
+busco -i assembly*.fasta -o busco_output1 -l pleosporales_odb10 --mode genome
