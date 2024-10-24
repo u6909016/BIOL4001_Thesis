@@ -1,4 +1,12 @@
-##Verkko. Generates genome assemblies. --hifi is the imput for Herro-corrected reads, --nano for simplex reads, -d is the output directory. 
-verkko -d /*/assembly --local-memory 50 --local-cpus 28 --hifi READS.herro-corrected.fasta --nano READS.fastq
+#Verkko. Generates genome assemblies. 
+#--hifi is the imput for Herro-corrected reads, --nano for simplex reads, -d is the output directory. 
+
+#Code for DC1
+verkko -d /home/hbc/assembly --local-memory 50 --local-cpus 28 --hifi SQK-NBD114-96_barcode92.herro-corrected.fasta --nano SQK-NBD114-96_barcode92.simplex.trimmed.fastq.gz
+#Code for PBCOMB
+verkko -d /home/hbc/assembly --local-memory 50 --local-cpus 28 --hifi PBCOMB.herro-corrected.fasta --nano PBCOMB.fastq
+Code for DCPB
+verkko -d /home/hbc/assembly --local-memory 50 --local-cpus 28 --hifi DCPB.herro-corrected.fasta --nano DCPB.fastq
+
 
 
